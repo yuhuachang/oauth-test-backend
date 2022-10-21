@@ -1,0 +1,9 @@
+server.port: 5000
+frontend_server_uri: https://oauth-test.factory95.com
+backend_server_uri: https://oauth-test.factory95.com
+line:
+  client_id: 1657561969
+  client_secret: your-client-secret
+linebot:
+  client_id: e0xp526SSYRvKI4ToywZ4h
+  client_secret: your-client-secret
