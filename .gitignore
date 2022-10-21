@@ -38,3 +38,8 @@ out/
 
 ### property ###
 src/main/resources/application-*.yml
+
+### temp frontend project ###
+oauth-test-frontend/
+src/main/resources/static/
+
