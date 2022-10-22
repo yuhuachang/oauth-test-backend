@@ -134,30 +134,35 @@ public class MyController {
             log.info("There is no id_token");
             return;
         }
-        String[] parts = idToken.split("\\.");
-        String headerPart = parts[0];
-        String payloadPart = parts[1];
-        String signaturePart = parts[2];
+        try {
+            String[] parts = idToken.split("\\.");
+            String headerPart = parts[0];
+            String payloadPart = parts[1];
+            String signaturePart = parts[2];
 
-        byte[] header = Base64.getDecoder().decode(headerPart);
-        byte[] payload = Base64.getDecoder().decode(payloadPart);
+            byte[] header = Base64.getDecoder().decode(headerPart);
+            byte[] payload = Base64.getDecoder().decode(payloadPart);
 
-        Map<String, String> headerMap = Utils.parse(header);
-        Map<String, String> payloadMap = Utils.parse(payload);
+            Map<String, String> headerMap = Utils.parse(header);
+            Map<String, String> payloadMap = Utils.parse(payload);
 
-        log.debug("header: {}", headerMap);
-        log.debug("payload: {}", payloadMap);
-        log.debug("signature: {}", signaturePart);
+            log.debug("header: {}", headerMap);
+            log.debug("payload: {}", payloadMap);
+            log.debug("signature: {}", signaturePart);
 
-        String type = headerMap.get("typ");
-        String algorithm = headerMap.get("alg");
+            String type = headerMap.get("typ");
+            String algorithm = headerMap.get("alg");
 
-        //TODO: verify JWT
-        // https://developers.line.biz/en/docs/line-login/verify-id-token/#get-profile-info-from-id-token
-        String issuer = payloadMap.get("iss");
-        String subject = payloadMap.get("sub");
-        String name = payloadMap.get("name");
-        user.setTokenIssuer(issuer);
+            //TODO: verify JWT
+            // https://developers.line.biz/en/docs/line-login/verify-id-token/#get-profile-info-from-id-token
+            String issuer = payloadMap.get("iss");
+            String subject = payloadMap.get("sub");
+            String name = payloadMap.get("name");
+            user.setTokenIssuer(issuer);
+        } catch (IllegalArgumentException e) {
+            // TODO: Found JWT header or body is not a valid base64 string and causing error. Ignore now and fix it later...
+            log.info(e.getMessage());
+        }
     }
 
     @GetMapping("/username")
